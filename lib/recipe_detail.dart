@@ -12,6 +12,7 @@ class RecipeDetail extends StatefulWidget {
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
+  int sliderVal = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +42,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
               height: 4.0,
             ),
             Text(
-              'Servings: ${widget.recipe.servings}',
+              'Servings: ${widget.recipe.servings * sliderVal}',
               style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
@@ -52,10 +53,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
             ),
             Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.all(8.0),
                 itemCount: widget.recipe.ingredients.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Text(
-                    '${widget.recipe.ingredients[index].quantity} ${widget.recipe.ingredients[index].measure} ${widget.recipe.ingredients[index].name}',
+                    '${widget.recipe.ingredients[index].quantity * sliderVal} ${widget.recipe.ingredients[index].measure} ${widget.recipe.ingredients[index].name}',
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w500,
@@ -64,6 +66,20 @@ class _RecipeDetailState extends State<RecipeDetail> {
                 },
               ),
             ),
+            // slider
+            Slider(
+              value: sliderVal.toDouble(),
+              min: 1.0,
+              max: 10.0,
+              divisions: 10,
+              label: '${sliderVal.round()}',
+              onChanged: (double value) {
+                setState(() {
+                  sliderVal = value.round();
+                });
+              },
+            ),
+
           ],
         ),
       ),
